@@ -84,6 +84,8 @@ public class Enemy : MonoBehaviour
         if (healthPoint > 0)    //남은 체력을 조건으로 피격과 사망으로 로직 나누기
         {   // Hit Action 출력(애니메이션 + 넉백)
             anim.SetTrigger("Hit");
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit); // Enemy 피격시 효과음 재생
         }
         else
         {
@@ -94,6 +96,9 @@ public class Enemy : MonoBehaviour
             anim.SetBool("Dead",true);  // Animator의 트리거가 bool로 되어있기 때문에 SetBool을 통해 Dead 상태로 변환
             GameManager.instance.kill++;
             GameManager.instance.GetExp();  // 몬스터 사망 시 킬수 증가와 경험치 증가함수 호출
+
+            if (GameManager.instance.isLive)    // Enemy 사망 사운드는 게임종료시에는 나지 않도록 조건추가
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead); // Enemy 사망시 효과음 재생
         }
     }
 

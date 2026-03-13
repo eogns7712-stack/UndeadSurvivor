@@ -18,12 +18,14 @@ public class LevelUp : MonoBehaviour
         Next(); // 창을 보이게 할 때 Next함수 호출
         rect.localScale = Vector3.one;  // (1,1,1)
         GameManager.instance.Stop();    // UI가 출력될 때 게임을 정지하는 함수 호출
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp); // 레벨업시 효과음 재생
     }
 
     public void Hide()
     {
         rect.localScale = Vector3.zero;
         GameManager.instance.Resume();  // UI가 사라질 때 게임을 재생하는 함수 호출
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select); // 레벨업 아이템 버튼 클릭시 효과음 재생
     }
 
     public void Select(int index)   // 버튼을 대신 눌러주는 함수 작성

@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);  // 게임 시작시 Player 활성화 후 기본무기 지급
         uiLevelUp.Select(playerId % 2);
         Resume();
+
+        AudioManager.instance.PlayBgm(true);    // 게임 시작부분에 PlayBgm 함수 호출
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select); // 캐릭터 선택버튼 클릭시 효과음 재생
     }
 
     public void GameOver()  // 코루틴 없이 바로 Stop함수 실행 시, Player의 Dead 애니메이션 출력 전에 멈춰버림
@@ -57,6 +60,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);   // 게임결과 UI 활성화
         uiResult.Lose();    // 이미지 오브젝트를 활성화하는 패배 함수 호출
         Stop();
+
+        AudioManager.instance.PlayBgm(false);   // 게임 종료시 Bgm종료
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose); // 게임 오버시 효과음 재생
     }
 
     public void GameVictory()  // 코루틴 없이 바로 Stop함수 실행 시, Player의 Dead 애니메이션 출력 전에 멈춰버림
@@ -74,6 +80,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);   // 게임결과 UI 활성화
         uiResult.Win();    // 이미지 오브젝트를 활성화하는 승리 함수 호출
         Stop();
+
+        AudioManager.instance.PlayBgm(false);   // 게임 종료시 Bgm종료
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win); // 게임 승리시 효과음 재생
     }
 
     public void GameRetry() // 게임 재시작 함수 작성

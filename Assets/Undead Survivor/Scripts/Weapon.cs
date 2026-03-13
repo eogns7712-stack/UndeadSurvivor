@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,8 +68,8 @@ public class Weapon : MonoBehaviour
 
         // Property set
         id = data.itemId;
-        damage = data.baseDamage;
-        count = data.baseCount;
+        damage = data.baseDamage * Character.Damage;    // Player의 무기 데미지를 정하는 구간
+        count = data.baseCount + Character.Count;   // Player의 원거리 관통력과 근접무기 갯수를 정하는 구간
 
         for (int index = 0; index < GameManager.instance.pool.prefabs.Length; index++)
         {
@@ -83,12 +84,14 @@ public class Weapon : MonoBehaviour
         switch (id)  // 무기ID에 따라 로직을 분리할 switch생성
         {   
             case 0 :    // 무기ID 하나씩 case ~ break로 감싸기
-                speed = 150;
+                // Player의 근접무기 회전속도를 정하는 구간
+                speed = 150 * Character.WeaponSpeed;
                 Batch();
                 break;
 
             default :   // 그외 나머지 경우가 있다면 default ~ break으로 감싸기, 이경우에는 원거리무기
-                speed = 0.3f;   // speed = 연사속도
+            // Player의 원거리무기 연사속도를 정하는 구간
+                speed = 0.5f * Character.WeaponRate;   // speed = 연사속도
                 break;
         }
 
@@ -142,8 +145,9 @@ public class Weapon : MonoBehaviour
         bullet.position = transform.position;   // 기존 근접무기 생성 로직을 그대로 활용하면서 위치는 Player위치로 지정
         bullet.rotation = Quaternion.FromToRotation(Vector3.up,dir); //Quaternion.FromToRotation(시작방향,목표방향) : 지정된 축을 중심으로 목표를 향해 회전하는 함수
         // bullet의 위쪽(Vector3.up)을 target 방향으로 회전, Vector3.up을 쓰는 이유 : 2D게임에서는 보통 스프라이트의 위쪽 방향이 발사방향
-        
         bullet.GetComponent<Bullet>().Init(damage, count, dir); // Bullet스크립트에 전달
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Range); // 원거리 무기 사출시 효과음 재생
     }
         
 }
