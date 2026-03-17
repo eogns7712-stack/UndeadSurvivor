@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public int level;   // 게임매니저에 레벨, 킬수, 경험치 변수 선언
     public int kill;
     public int exp;
-    public int[] nextExp = { 3, 10, 60, 100, 150, 210, 280, 360, 450, 600 };   // 각 레벨의 필요 경험치를 보관할 배열 변수 선언
+    public int[] nextExp = { 15, 30, 60, 100, 150, 210, 280, 360, 450, 600 };   // 각 레벨의 필요 경험치를 보관할 배열 변수 선언
     [Header("# Game Object")]
     public Player player;
     public PoolManager pool;
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
         uiResult.Win();    // 이미지 오브젝트를 활성화하는 승리 함수 호출
         Stop();
 
+        
         AudioManager.instance.PlayBgm(false);   // 게임 종료시 Bgm종료
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Win); // 게임 승리시 효과음 재생
     }

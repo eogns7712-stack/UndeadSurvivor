@@ -127,7 +127,7 @@ public class Weapon : MonoBehaviour
             bullet.Translate(bullet.up * 1.5f, Space.World);  // Translate()함수로 자신의 위쪽으로 이동
             // Space.World의 의미 : 월드좌표 기준으로 이동, 즉 부보 회전에 영향을 받지않아 정확한 위치에 배치
 
-            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1 is Infinity Per.
+            bullet.GetComponent<Bullet>().Init(damage, -100, Vector3.zero); // -1 is Infinity Per.
         }
     }
 

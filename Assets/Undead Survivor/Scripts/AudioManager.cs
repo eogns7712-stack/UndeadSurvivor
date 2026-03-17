@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip bgmClip;
     public float bgmVolume;
     AudioSource bgmPlayer;
+    AudioHighPassFilter bgmEffect;  // 오디오 하이패스를 사용하기 위한 변수 생성
 
     [Header("#SFX")]    // 효과음과 관련된 변수 생성
     public AudioClip[] sfxClips;
@@ -37,6 +38,7 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.loop = true;  // bgm 무한재생을 위한 loop값 true
         bgmPlayer.volume = bgmVolume;   // 소리 크기는 미리 지정했던 bgmVolume값
         bgmPlayer.clip = bgmClip;   // 재생할 BgmClip 지정
+        bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
         
         // 효과음 플레이어 초기화
         GameObject sfxObject = new GameObject("SfxPlayer");
@@ -48,10 +50,11 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();  // 반복문으로 모든 효과음 오디오소스 생성하면서 저장
             sfxPlayers[index].playOnAwake = false;
             sfxPlayers[index].volume = sfxVolume;
+            sfxPlayers[index].bypassListenerEffects = true; // AudioSource가 AudioListener의 효과를 무시하도록 설정
         }
     }
 
-    public void PlayBgm(bool isPlay)
+    public void PlayBgm(bool isPlay)    // 배경음(bgm)을 재생하는 함수 작성
     {
         if (isPlay)
         {
@@ -63,6 +66,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void EffectBgm(bool isPlay)    // 오디오 하이패스를 사용하기 위한 함수 작성
+    {
+            bgmEffect.enabled = isPlay;
+    }
     public void PlaySfx(Sfx sfx)    // 효과음 재생함수 작성
     {
         for (int index = 0; index < sfxPlayers.Length; index++)

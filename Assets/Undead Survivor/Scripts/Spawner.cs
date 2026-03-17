@@ -6,12 +6,14 @@ public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;    // 자식 오브젝트의 트랜스폼을 담을 배열변수 선언
     public SpawnData[] spawnData;    // 만든 클래스를 그대로 타입으로 활용해 배열변수 선언
+    public float levelTime; // 소환 레벨 구간을 결정하는 변수 선언
     int level;  // 레벨 담당 변수 선언
     float timer;    // 소환 타이머를 위한 변수 선언
 
     void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();  // 배열(다수)를 가져오는 것이기때문에 GetComponentsInChildren로 배열 초기화, 자기 자신도 포함
+        levelTime = GameManager.instance.maxGameTime / spawnData.Length;    // 최대 시간에 몬스터 데이터 크기로 나누어 자동으로 구간시간 계산
     }
 
     void Update()
@@ -20,9 +22,8 @@ public class Spawner : MonoBehaviour
             return;
             
         timer += Time.deltaTime;    // 타이머 변수에 deltaTime 계속 더하기
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1);
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / levelTime), spawnData.Length - 1);
         // Mathf.Min() 함수를 사용해 인덱스 에러 방지
-
         // Mathf.FloorToInt : 소수점 아래는 버리고 Int형으로 바꾸는 함수
         // Mathf.CeilToInt : 소수점 아래를 올리고 Int형으로 바꾸는 함수
 
