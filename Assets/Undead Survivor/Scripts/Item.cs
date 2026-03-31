@@ -55,6 +55,7 @@ public class Item : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log($"Clicked Item: {data.itemName}, itemId: {data.itemId}, playerId: {GameManager.instance.playerId}");
         switch (data.itemType)
         {
             case ItemData.ItemType.Melee:   // 여러 case를 붙여서 로직을 실행할 수 있음
